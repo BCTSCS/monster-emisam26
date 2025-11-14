@@ -45,6 +45,8 @@ public class SimpleClient {
 
         a.close();
 
+        
+
         // a.sendMessage("Hi there!");
         // String server = a.receiveMessage();
         // System.out.println("Server : "+ server);

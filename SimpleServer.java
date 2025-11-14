@@ -27,8 +27,7 @@ public class SimpleServer {
     public void close(){
 
     }
-    public static void main(String[] args) throws IOException{
-
+    public static void main(String[] args) throws Exception{
         SimpleServer s = new SimpleServer(8888);
         s.acceptClient();
 
