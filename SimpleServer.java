@@ -1,5 +1,6 @@
-import java.net.*;
+
 import java.io.*;
+import java.net.*;
 import java.util.*;
 
 public class SimpleServer {
@@ -28,23 +29,46 @@ public class SimpleServer {
 
     }
     public static void main(String[] args) throws Exception{
-        SimpleServer s = new SimpleServer(8888);
+        SimpleServer s = new SimpleServer(8080);
         s.acceptClient();
 
-        FileOperator file = new FileOperator("server.txt");
+        FileOperator file = new FileOperator("index.html");
+        String user;
 
-        while(true){
-            String user = s.receiveMessage();
-            System.out.println("User: "+ user);
-            if (user.equals("exit")){
-                break;
-            }
-            String response = file.readLine();
+        user = s.receiveMessage();
+        System.out.println("Headers: "+ user);
+
+        //Send HTTP header to render HTML
+        s.sendMessage("HTTP/1.1 200 OK");
+        s.sendMessage("Content-Type: text/html");
+        s.sendMessage("");
+
+        //respond via File
+        String response = file.readLine();
+        while (response != null){
             s.sendMessage(response);
-            System.out.println("Us: "+ response);
+            response = file.readLine();
         }
 
         s.close();
+
+        // SimpleServer s = new SimpleServer(8888);
+        // s.acceptClient();
+
+        // FileOperator file = new FileOperator("server.txt");
+
+        // while(true){
+        //     String user = s.receiveMessage();
+        //     System.out.println("User: "+ user);
+        //     if (user.equals("exit")){
+        //         break;
+        //     }
+        //     String response = file.readLine();
+        //     s.sendMessage(response);
+        //     System.out.println("Us: "+ response);
+        // }
+
+        // s.close();
         // try{
         //     SimpleServer s = new SimpleServer(8888);
         //     s.acceptClient();
